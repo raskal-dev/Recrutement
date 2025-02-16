@@ -23,3 +23,14 @@ export const updateUser = async (id: number, user: IUser) => {
         attributes: ['id', 'firstname', 'email', 'createdAt', 'updatedAt']
     });
 };
+
+export const deleteUser = async (id: number) => {
+    const existingUser = await User.findByPk(id);
+    if (!existingUser) {
+        throw new Error("Utilisateur non trouvé");
+    }
+
+    await User.destroy({ where: { id } });
+
+    return { message: "Utilisateur supprimé avec succès" };
+};

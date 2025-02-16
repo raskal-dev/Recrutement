@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { createUser, getUsers, updateUser } from "../Services/UserServices";
+import { createUser, deleteUser, getUsers, updateUser } from "../Services/UserServices";
 import { SendResponse } from "../Middlewares/SendResponse.middleware";
 import { IUser } from "../Utils/UserInterface/IUser";
 const bcrypt = require('bcrypt');
@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 
 
 
-export const userAll = async(req: Request, res: Response, next: NextFunction) => {
+export const getUsersController = async(req: Request, res: Response, next: NextFunction) => {
     try {
         const users = await getUsers();
         SendResponse(res, users, "Liste des Users");
@@ -17,7 +17,7 @@ export const userAll = async(req: Request, res: Response, next: NextFunction) =>
 }
 
 
-export const store = async(req: Request, res: Response, next: NextFunction) => {
+export const createUserController = async(req: Request, res: Response, next: NextFunction) => {
     try {
         req.body.password = await bcrypt.hashSync(req.body.password, 10);
         const user = await createUser(req.body as IUser);
@@ -27,7 +27,7 @@ export const store = async(req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-export const update = async (req: Request, res: Response, next: NextFunction) => {
+export const updateUserController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = parseInt(req.params.user); // Extraire l'ID depuis l'URL
         if (isNaN(userId)) {
@@ -42,5 +42,19 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
         SendResponse(res, updatedUser, "Utilisateur modifié avec succès");
     } catch (err: any) {
         SendResponse(res, err.message, "Erreur de mise à jour", 400);
+    }
+};
+
+export const deleteUserController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId = parseInt(req.params.userId);
+        if (isNaN(userId)) {
+            return SendResponse(res, null, "ID invalide", 400);
+        }
+
+        const result = await deleteUser(userId);
+        SendResponse(res, result, "Suppression de l'utilisateur réussie");
+    } catch (err: any) {
+        SendResponse(res, err.message, "Erreur de suppression", 400);
     }
 };
