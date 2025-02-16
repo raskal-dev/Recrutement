@@ -10,3 +10,16 @@ export const getUsers = async () => {
 export const createUser = async (user: IUser) => {
     return await User.create(user);
 }
+
+export const updateUser = async (id: number, user: IUser) => {
+    const existingUser = await User.findByPk(id);
+    if (!existingUser) {
+        throw new Error("Utilisateur non trouvé");
+    }
+
+    await User.update(user, { where: { id } });
+
+    return await User.findByPk(id, {
+        attributes: ['id', 'firstname', 'email', 'createdAt', 'updatedAt']
+    });
+};

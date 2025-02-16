@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { createUser, getUsers } from "../Services/UserServices";
+import { createUser, getUsers, updateUser } from "../Services/UserServices";
 import { SendResponse } from "../Middlewares/SendResponse.middleware";
 import { IUser } from "../Utils/UserInterface/IUser";
 const bcrypt = require('bcrypt');
@@ -26,3 +26,21 @@ export const store = async(req: Request, res: Response, next: NextFunction) => {
         SendResponse(res, err, "Message d'erreur", 400);
     }
 }
+
+export const update = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId = parseInt(req.params.user); // Extraire l'ID depuis l'URL
+        if (isNaN(userId)) {
+            return SendResponse(res, null, "ID invalide", 400);
+        }
+
+        if (req.body.password) {
+            req.body.password = await bcrypt.hash(req.body.password, 10);
+        }
+
+        const updatedUser = await updateUser(userId, req.body);
+        SendResponse(res, updatedUser, "Utilisateur modifié avec succès");
+    } catch (err: any) {
+        SendResponse(res, err.message, "Erreur de mise à jour", 400);
+    }
+};
