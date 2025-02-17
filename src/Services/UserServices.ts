@@ -1,8 +1,9 @@
-import { Request } from "express";
+import { NextFunction, Request, Response } from "express";
 import { db } from "../Models";
 import { IUser } from "../Utils/UserInterface/IUser";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { blacklistToken } from "../Utils/blackList";
 
 const User = db.users as any;
 
@@ -62,3 +63,19 @@ export const login = async (req: Request) => {
 
     return { user, token };
 }
+
+export const logout = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const token = req.headers.authorization?.split(" ")[1];
+
+        if (!token) {
+            res.status(400).json({ message: "Token requis pour la déconnexion" });
+            return;
+        }
+
+        blacklistToken(token);
+        res.json({ message: "Déconnexion réussie" });
+    } catch (err: any) {
+        res.status(500).json({ message: "Erreur lors de la déconnexion" });
+    }
+};
