@@ -1,7 +1,7 @@
 import express, { Express, Request, Response , Application } from 'express';
 import dotenv from 'dotenv';
 import { ConnectionDb } from './src/Models';
-import userRouter from './src/Routes/User.root';
+import userRouter from './src/Routes/User.routes';
 import bodyParser from 'body-parser';
 
 

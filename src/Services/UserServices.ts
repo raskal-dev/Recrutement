@@ -1,5 +1,8 @@
+import { Request } from "express";
 import { db } from "../Models";
 import { IUser } from "../Utils/UserInterface/IUser";
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 const User = db.users as any;
 
@@ -34,3 +37,28 @@ export const deleteUser = async (id: number) => {
 
     return { message: "Utilisateur supprimé avec succès" };
 };
+
+export const login = async (req: Request) => {
+    const { email, password } = req.body;
+    const user: IUser | null = await User.findOne({
+        where: { email: email }
+    });
+
+    if (!user) {
+        throw new Error("Ce compte n'existe pas!");
+    }
+
+    const validPassword = await bcrypt.compareSync(password.toString(), user.password.toString());
+
+    if (!validPassword) {
+        throw new Error("Le mot de passe est incorrect!");
+    }
+
+    const token = jwt.sign(
+        { userEmail: user.email },
+        process.env.JWT_KEY as string,
+        { expiresIn: 60 * 60 } // 60 secondes
+    );
+
+    return { user, token };
+}
