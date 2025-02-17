@@ -1,9 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { createUser, deleteUser, getUsers, updateUser } from "../Services/UserServices";
+import { createUser, deleteUser, getUsers, login, logout, updateUser } from "../Services/UserServices";
 import { SendResponse } from "../Middlewares/SendResponse.middleware";
 import { IUser } from "../Utils/UserInterface/IUser";
-const bcrypt = require('bcrypt');
-
+import bcrypt from 'bcrypt';
 
 
 
@@ -58,3 +57,22 @@ export const deleteUserController = async (req: Request, res: Response, next: Ne
         SendResponse(res, err.message, "Erreur de suppression", 400);
     }
 };
+
+export const loginController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const result = await login(req);
+        SendResponse(res, result, "Connexion réussie");
+    } catch (err: any) {
+        SendResponse(res, err.message, "Erreur de connexion", 400);
+    }
+};
+
+
+export const logoutController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const result = await logout(req, res, next);
+        SendResponse(res, result, "Déconnexion réussie");
+    } catch (err: any) {
+        SendResponse(res, err.message, "Erreur de déconnexion", 500);
+    }
+}
