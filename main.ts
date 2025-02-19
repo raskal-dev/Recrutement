@@ -1,4 +1,4 @@
-import express, { Express, Request, Response , Application } from 'express';
+import express, { Request, Response , Application } from 'express';
 import dotenv from 'dotenv';
 import { ConnectionDb } from './src/Models';
 import userRouter from './src/Routes/User.routes';
