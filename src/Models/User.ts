@@ -9,6 +9,15 @@ const User = (sequelize: Sequelize) => {
                 type: DataTypes.STRING(80),
                 allowNull: false,
             },
+            company: {
+                type: DataTypes.STRING(80)
+            },
+            about: {
+                type: DataTypes.STRING
+            },
+            adress: {
+                type: DataTypes.STRING
+            },
             email: {
                 type: DataTypes.STRING(100),
                 allowNull: false,
