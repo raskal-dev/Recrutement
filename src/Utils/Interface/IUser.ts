@@ -1,3 +1,5 @@
+import { Role } from "../Enums/Role.enum";
+
 export interface IUser {
     id?: number;
     firstName?: string;
@@ -6,7 +8,7 @@ export interface IUser {
     adress?: string;
     email: string;
     password: string;
-    role: string;
+    role: Role;
     createdAt: Date;
     updatedAt: Date;
 }
