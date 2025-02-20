@@ -1,4 +1,5 @@
 import { Sequelize, DataTypes } from 'sequelize';
+import { Role } from '../Utils/Enums/Role.enum';
 
 const User = (sequelize: Sequelize) => {
     return sequelize.define(
@@ -8,9 +9,23 @@ const User = (sequelize: Sequelize) => {
                 type: DataTypes.STRING(80),
                 allowNull: false,
             },
+            company: {
+                type: DataTypes.STRING(80)
+            },
+            about: {
+                type: DataTypes.STRING
+            },
+            adress: {
+                type: DataTypes.STRING
+            },
             email: {
                 type: DataTypes.STRING(100),
                 allowNull: false,
+            },
+            role: {
+                type: DataTypes.STRING(25),
+                allowNull: false,
+                defaultValue: Role.STUDENT,
             },
             password: {
                 type: DataTypes.STRING,
