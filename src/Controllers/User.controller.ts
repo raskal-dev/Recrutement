@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { createUser, deleteUser, getUsers, login, logout, updateUser } from "../Services/UserServices";
 import { SendResponse } from "../Middlewares/SendResponse.middleware";
-import { IUser } from "../Utils/UserInterface/IUser";
+import { IUser } from "../Utils/Interface/IUser";
 import bcrypt from 'bcrypt';
 
 

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { db } from "../Models";
-import { IUser } from "../Utils/UserInterface/IUser";
+import { IUser } from "../Utils/Interface/IUser";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { blacklistToken } from "../Utils/blackList";
