@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 import { db } from "../Models";
-import { isTokenBlacklisted } from "../Utils/blackList";
 
 const User = db.users as any;
 
@@ -13,10 +12,6 @@ export const jwtMiddleware = async (req: Request, res: Response, next: NextFunct
         }
 
         const token = authHeader.split(' ')[1];
-
-        if (await isTokenBlacklisted(token)) {
-            throw new Error('Déconnexion effectuée. Veuillez vous reconnecter.');
-        }
 
         const decodedToken = jwt.verify(token, process.env.JWT_KEY as string) as any;
         const userEmail = decodedToken.userEmail;
@@ -31,9 +26,6 @@ export const jwtMiddleware = async (req: Request, res: Response, next: NextFunct
         };
         return next();
     } catch (error) {
-        const err = error as Error; // 🔹 Convertir en type `Error`
-        console.error("🔴 Erreur dans jwtMiddleware :", err.message);
-        res.status(401).json({ message: "Token invalide ou expiré." });
-        return;
+        throw new Error('Token invalide ou expiré.');
     }
 };

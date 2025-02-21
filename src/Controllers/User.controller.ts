@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { createUser, deleteUser, getUsers, login, logout, updateUser } from "../Services/UserServices";
+import { createUser, deleteUser, getUsers, login, updateUser } from "../Services/UserServices";
 import { SendResponse } from "../Middlewares/SendResponse.middleware";
 import { IUser } from "../Utils/Interface/IUser";
 import bcrypt from 'bcrypt';
@@ -66,13 +66,3 @@ export const loginController = async (req: Request, res: Response, next: NextFun
         SendResponse(res, err.message, "Erreur de connexion", 400);
     }
 };
-
-
-export const logoutController = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const result = await logout(req, res, next);
-        SendResponse(res, result, "Déconnexion réussie");
-    } catch (err: any) {
-        SendResponse(res, err.message, "Erreur de déconnexion", 500);
-    }
-}
