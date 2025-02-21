@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { db } from "../Models";
 import { Role } from "../Utils/Enums/Role.enum";
-import { createOffer, getOffers } from "../Services/OfferServices";
+import { createOffer, deleteOffer, getOffers, updateOffer } from "../Services/OfferServices";
 import { IOffer } from "../Utils/Interface/IOffer";
 import { SendError, SendResponse } from "../Middlewares/SendResponse.middleware";
 
@@ -33,5 +33,37 @@ export const createOfferController = async (req: Request, res: Response) => {
         SendResponse(res, offer, "Offre ajouté avec succes!");
     } catch (err: any) {
         SendError(res, "Message d'erreur", 500);
+    }
+};
+
+export const updateOfferController = async (req: Request, res: Response) => {
+    try {
+        const offerId = parseInt(req.params.offerId);
+        if (isNaN(offerId)) {
+            return SendError(res, "ID invalide", 400);
+        }
+
+        if (!req.body) {
+            return SendError(res, "Les données sont requises", 400);
+        }
+
+        const updatedOffer = await updateOffer(offerId, req.body);
+        SendResponse(res, updatedOffer, "Offre modifié avec succès");
+    } catch (err: any) {
+        SendError(res, "Erreur de mise à jour", 500);
+    }
+};
+
+export const deleteOfferController = async (req: Request, res: Response) => {
+    try {
+        const offerId = parseInt(req.params.offerId);
+        if (isNaN(offerId)) {
+            return SendError(res, "ID invalide", 400);
+        }
+
+        const result = await deleteOffer(offerId);
+        SendResponse(res, result, "Offre supprimée avec succès");
+    } catch (err: any) {
+        return SendError(res, "Erreur de suppression", 500);
     }
 };
