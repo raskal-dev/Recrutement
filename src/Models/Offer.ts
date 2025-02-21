@@ -33,3 +33,5 @@ const Offer = (sequelize: Sequelize, ) => {
         }
     );
 }
+
+export default Offer;

@@ -8,5 +8,5 @@ export const SendResponse = (res: Response, data: any = [], message: string = "S
         return; // ✅ Évite d'envoyer une deuxième réponse
     }
     
-    res.status(statusCode).json({ success:true, message, data });
+    res.status(statusCode).json({ success:true, message, data });
 }
