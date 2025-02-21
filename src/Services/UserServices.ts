@@ -10,9 +10,15 @@ export const getUsers = async () => {
     return await User.findAll({attributes: ['id', 'name','email', 'about', 'adress', 'role', 'createdAt', 'updatedAt']});
 }
 
+export const getUser = async (id: number) => {
+    return await User.findByPk(id, {
+        attributes: ['id', 'name', 'email', 'about', 'adress', 'role', 'createdAt', 'updatedAt']
+    });
+};
+
 export const createUser = async (user: IUser) => {
     return await User.create(user);
-}
+};
 
 export const updateUser = async (id: number, user: IUser) => {
     const existingUser = await User.findByPk(id);

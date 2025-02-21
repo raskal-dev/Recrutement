@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { db } from "../Models";
 import { Role } from "../Utils/Enums/Role.enum";
-import { createOffer, deleteOffer, getOffers, updateOffer } from "../Services/OfferServices";
+import { createOffer, deleteOffer, getOffers, getOffer, updateOffer } from "../Services/OfferServices";
 import { IOffer } from "../Utils/Interface/IOffer";
 import { SendError, SendResponse } from "../Middlewares/SendResponse.middleware";
 
@@ -13,6 +13,20 @@ export const getOffersController = async (req: Request, res: Response) => {
         SendError(res, "Message d'erreur", 500);
     }
 };
+
+export const getOfferController = async (req: Request, res: Response) => {
+    try {
+        const offerId = parseInt(req.params.offerId);
+        if (isNaN(offerId)) {
+            return SendError(res, "ID invalide", 400);
+        }
+
+        const offer = await getOffer(offerId);
+        SendResponse(res, offer, "Offre trouvé");
+    } catch (err: any) {
+        return SendError(res, "Message d'erreur", 500);
+    }
+}
 
 export const createOfferController = async (req: Request, res: Response) => {
     try {

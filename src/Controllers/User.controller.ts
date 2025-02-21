@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { createUser, deleteUser, getUsers, login, updateUser } from "../Services/UserServices";
+import { createUser, deleteUser, getUser, getUsers, login, updateUser } from "../Services/UserServices";
 import { SendError, SendResponse } from "../Middlewares/SendResponse.middleware";
 import { IUser } from "../Utils/Interface/IUser";
 import bcrypt from 'bcrypt';
@@ -13,8 +13,22 @@ export const getUsersController = async(req: Request, res: Response, next: NextF
     } catch (err: any) {
         return SendError(res, "Message d'erreur", 500);
     }
-}
+};
 
+export const getUserController = async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId = parseInt(req.params.userId);
+        if (isNaN(userId)) {
+            return SendError(res, "ID invalide", 400);
+        }
+
+        const user = await getUser(userId);
+        SendResponse(res, user, "Utilisateur trouvé");
+    }
+    catch (err: any) {
+        return SendError(res, "Message d'erreur", 500);
+    }
+};
 
 export const createUserController = async(req: Request, res: Response, next: NextFunction) => {
     try {
@@ -24,11 +38,11 @@ export const createUserController = async(req: Request, res: Response, next: Nex
     } catch (err: any) {
         return SendError(res, "Message d'erreur", 500);
     }
-}
+};
 
 export const updateUserController = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const userId = parseInt(req.params.user); // Extraire l'ID depuis l'URL
+        const userId = parseInt(req.params.userId); // Extraire l'ID depuis l'URL
         if (isNaN(userId)) {
             return SendError(res, "ID invalide", 400);
         }

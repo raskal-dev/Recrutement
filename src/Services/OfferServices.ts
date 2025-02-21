@@ -4,7 +4,25 @@ import { IOffer } from "../Utils/Interface/IOffer";
 const Offer = db.offers as any;
 
 export const getOffers = async () => {
-    return await Offer.findAll();
+    return await Offer.findAll({
+        include: [
+            {
+                model: db.users,
+                attributes: ["id", "name", "email", "about", "adress", "role"],
+            },
+        ],
+    });
+};
+
+export const getOffer = async (id: number) => {
+    return await Offer.findByPk(id, {
+        include: [
+            {
+                model: db.users,
+                attributes: ["id", "name", "email", "about", "adress", "role"],
+            },
+        ],
+    });
 };
 
 export const createOffer = async (offer: IOffer) => {
