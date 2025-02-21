@@ -23,13 +23,11 @@ const Offer = (sequelize: Sequelize, ) => {
             contract: {
                 type: DataTypes.STRING,
                 allowNull: false,
-            },
-            company: {
-                type: DataTypes.STRING,
-                allowNull: false,
             }
         }, {
             timestamps: true,
         }
     );
 }
+
+export default Offer;

@@ -3,17 +3,22 @@ import { db } from "../Models";
 import { IUser } from "../Utils/Interface/IUser";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { blacklistToken } from "../Utils/blackList";
 
 const User = db.users as any;
 
 export const getUsers = async () => {
-    return await User.findAll({attributes: ['id', 'firstname','email', 'createdAt', 'updatedAt']});
+    return await User.findAll({attributes: ['id', 'name','email', 'about', 'adress', 'role', 'createdAt', 'updatedAt']});
 }
+
+export const getUser = async (id: number) => {
+    return await User.findByPk(id, {
+        attributes: ['id', 'name', 'email', 'about', 'adress', 'role', 'createdAt', 'updatedAt']
+    });
+};
 
 export const createUser = async (user: IUser) => {
     return await User.create(user);
-}
+};
 
 export const updateUser = async (id: number, user: IUser) => {
     const existingUser = await User.findByPk(id);
@@ -24,7 +29,7 @@ export const updateUser = async (id: number, user: IUser) => {
     await User.update(user, { where: { id } });
 
     return await User.findByPk(id, {
-        attributes: ['id', 'firstname', 'email', 'createdAt', 'updatedAt']
+        attributes: ['id', 'name', 'email', 'about', 'adress', 'createdAt', 'updatedAt']
     });
 };
 
@@ -62,20 +67,4 @@ export const login = async (req: Request) => {
     );
 
     return { user, token };
-}
-
-export const logout = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-        const token = req.headers.authorization?.split(" ")[1];
-
-        if (!token) {
-            res.status(400).json({ message: "Token requis pour la déconnexion" });
-            return;
-        }
-
-        blacklistToken(token);
-        res.json({ message: "Déconnexion réussie" });
-    } catch (err: any) {
-        res.status(500).json({ message: "Erreur lors de la déconnexion" });
-    }
 };

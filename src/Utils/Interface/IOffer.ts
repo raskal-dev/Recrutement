@@ -5,7 +5,7 @@ export interface IOffer {
     salary: string;
     localisation: string;
     contract: string;
-    company: string;
+    UserId: number;
     createdAt: Date;
     updatedAt: Date;
 }

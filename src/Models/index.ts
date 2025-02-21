@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize";
 import DbConfig from "../Configs/Db.config";
 import User from "./User";
+import Offer from "./Offer";
 
 
 const sequelize = new Sequelize(DbConfig.DB, DbConfig.USER, DbConfig.PASSWORD, {
@@ -26,14 +27,13 @@ db.sequelize = sequelize;
  */
 
 db.users = User(sequelize);
-
+db.offers = Offer(sequelize);
 
 /**
  * Define the R E L A T I O N S H I P S
- *                                            (For exemple)
  */
-// db.users.hasMany(db.projects);
-// db.projects.belongsTo(db.users);
+db.users.hasMany(db.offers);
+db.offers.belongsTo(db.users);
 
 
 const ConnectionDb = async () => {
