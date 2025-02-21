@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 import { db } from "../Models";
+import { SendError } from "./SendResponse.middleware";
 
 const User = db.users as any;
 
@@ -8,7 +9,7 @@ export const jwtMiddleware = async (req: Request, res: Response, next: NextFunct
     try {
         const authHeader = req.headers.authorization;
         if (!authHeader) {
-            throw new Error('Access denied!');
+            return SendError(res, 'Access denied!');
         }
 
         const token = authHeader.split(' ')[1];
@@ -17,7 +18,7 @@ export const jwtMiddleware = async (req: Request, res: Response, next: NextFunct
         const userEmail = decodedToken.userEmail;
         const user = await User.findOne({ where: { email: userEmail } });
         if (!user) {
-            throw new Error('Access denied!');
+            return SendError(res, 'Utilisateur non trouvé', 404);
         }
         // @ts-expect-error Property 'auth' does not exist on type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
         req.auth = {
@@ -26,6 +27,6 @@ export const jwtMiddleware = async (req: Request, res: Response, next: NextFunct
         };
         return next();
     } catch (error) {
-        throw new Error('Token invalide ou expiré.');
+        return SendError(res, 'Token est invalid ou expiré', 401);
     }
 };

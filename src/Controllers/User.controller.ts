@@ -11,7 +11,7 @@ export const getUsersController = async(req: Request, res: Response, next: NextF
         const users = await getUsers();
         SendResponse(res, users, "Liste des Users");
     } catch (err: any) {
-        SendError(res, "Message d'erreur", 500);
+        return SendError(res, "Message d'erreur", 500);
     }
 }
 
@@ -22,7 +22,7 @@ export const createUserController = async(req: Request, res: Response, next: Nex
         const user = await createUser(req.body as IUser);
         SendResponse(res, user, "Insertion de User");
     } catch (err: any) {
-        SendError(res, "Message d'erreur", 500);
+        return SendError(res, "Message d'erreur", 500);
     }
 }
 
@@ -40,7 +40,7 @@ export const updateUserController = async (req: Request, res: Response, next: Ne
         const updatedUser = await updateUser(userId, req.body);
         SendResponse(res, updatedUser, "Utilisateur modifié avec succès");
     } catch (err: any) {
-        SendError(res, "Erreur de mise à jour, 500");
+        return SendError(res, "Erreur de mise à jour, 500");
     }
 };
 
@@ -54,7 +54,7 @@ export const deleteUserController = async (req: Request, res: Response, next: Ne
         const result = await deleteUser(userId);
         SendResponse(res, result, "Suppression de l'utilisateur réussie");
     } catch (err: any) {
-        SendError(res, "Erreur de suppression", 400);
+        return SendError(res, "Erreur de suppression", 400);
     }
 };
 
@@ -63,6 +63,6 @@ export const loginController = async (req: Request, res: Response, next: NextFun
         const result = await login(req);
         SendResponse(res, result, "Connexion réussie");
     } catch (err: any) {
-        SendError(res, "Erreur de connexion", 400);
+        return SendError(res, "Erreur de connexion", 400);
     }
 };
