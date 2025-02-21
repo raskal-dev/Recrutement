@@ -3,6 +3,7 @@ import { db } from "../Models";
 import { IUser } from "../Utils/Interface/IUser";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { BaseError } from "../Utils/BaseErrer";
 
 const User = db.users as any;
 
@@ -13,7 +14,7 @@ export const getUsers = async () => {
 export const getUser = async (id: number) => {
     const existingUser = await User.findByPk(id);
     if (!existingUser) {
-        throw new Error("Utilisateur non trouvé");
+        throw new BaseError("Utilisateur non trouvé", 404);
     }
     
     return await User.findByPk(id, {
@@ -28,7 +29,7 @@ export const createUser = async (user: IUser) => {
 export const updateUser = async (id: number, user: IUser) => {
     const existingUser = await User.findByPk(id);
     if (!existingUser) {
-        throw new Error("Utilisateur non trouvé");
+        throw new BaseError("Utilisateur non trouvé", 404);
     }
 
     await User.update(user, { where: { id } });
@@ -41,7 +42,7 @@ export const updateUser = async (id: number, user: IUser) => {
 export const deleteUser = async (id: number) => {
     const existingUser = await User.findByPk(id);
     if (!existingUser) {
-        throw new Error("Utilisateur non trouvé");
+        throw new BaseError("Utilisateur non trouvé", 404);
     }
 
     await User.destroy({ where: { id } });
@@ -56,13 +57,13 @@ export const login = async (req: Request) => {
     });
 
     if (!user) {
-        throw new Error("Ce compte n'existe pas!");
+        throw new BaseError("Ce compte n'existe pas!", 404);
     }
 
     const validPassword = await bcrypt.compareSync(password.toString(), user.password.toString());
 
     if (!validPassword) {
-        throw new Error("Le mot de passe est incorrect!");
+        throw new BaseError("Le mot de passe est incorrect!", 400);
     }
 
     const token = jwt.sign(

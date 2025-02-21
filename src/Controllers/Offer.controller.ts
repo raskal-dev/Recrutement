@@ -4,13 +4,18 @@ import { Role } from "../Utils/Enums/Role.enum";
 import { createOffer, deleteOffer, getOffers, getOffer, updateOffer } from "../Services/OfferServices";
 import { IOffer } from "../Utils/Interface/IOffer";
 import { SendError, SendResponse } from "../Middlewares/SendResponse.middleware";
+import { BaseError } from "../Utils/BaseErrer";
 
 export const getOffersController = async (req: Request, res: Response) => {
     try {
         const offers = await getOffers();
         SendResponse(res, offers, "Liste des offres");
     } catch (err: any) {
-        SendError(res, "Message d'erreur", 500);
+        if (err instanceof BaseError) {
+            return SendError(res, err.message, err.statusCode);
+        }
+        
+        return SendError(res, "Erreur interne du serveur", 500);
     }
 };
 
@@ -24,7 +29,11 @@ export const getOfferController = async (req: Request, res: Response) => {
         const offer = await getOffer(offerId);
         SendResponse(res, offer, "Offre trouvé");
     } catch (err: any) {
-        return SendError(res, "Message d'erreur", 500);
+        if (err instanceof BaseError) {
+            return SendError(res, err.message, err.statusCode);
+        }
+
+        return SendError(res, "Erreur interne du serveur", 500);
     }
 }
 
@@ -46,7 +55,11 @@ export const createOfferController = async (req: Request, res: Response) => {
         const offer = await createOffer(dataOffer);
         SendResponse(res, offer, "Offre ajouté avec succes!");
     } catch (err: any) {
-        SendError(res, "Message d'erreur", 500);
+        if (err instanceof BaseError) {
+            return SendError(res, err.message, err.statusCode);
+        }
+        
+        return SendError(res, "Erreur interne du serveur", 500);
     }
 };
 
@@ -64,7 +77,11 @@ export const updateOfferController = async (req: Request, res: Response) => {
         const updatedOffer = await updateOffer(offerId, req.body);
         SendResponse(res, updatedOffer, "Offre modifié avec succès");
     } catch (err: any) {
-        SendError(res, "Erreur de mise à jour", 500);
+        if (err instanceof BaseError) {
+            return SendError(res, err.message, err.statusCode);
+        }
+        
+        return SendError(res, "Erreur interne du serveur", 500);
     }
 };
 
@@ -78,6 +95,10 @@ export const deleteOfferController = async (req: Request, res: Response) => {
         const result = await deleteOffer(offerId);
         SendResponse(res, result, "Offre supprimée avec succès");
     } catch (err: any) {
-        return SendError(res, "Erreur de suppression", 500);
+        if (err instanceof BaseError) {
+            return SendError(res, err.message, err.statusCode);
+        }
+        
+        return SendError(res, "Erreur interne du serveur", 500);
     }
 };

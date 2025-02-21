@@ -1,4 +1,5 @@
 import { db } from "../Models";
+import { BaseError } from "../Utils/BaseErrer";
 import { IOffer } from "../Utils/Interface/IOffer";
 
 const Offer = db.offers as any;
@@ -17,7 +18,7 @@ export const getOffers = async () => {
 export const getOffer = async (id: number) => {
     const existingOffer = await Offer.findByPk(id);
     if (!existingOffer) {
-        throw new Error("Offre non trouvée");
+        throw new BaseError("Offre non trouvée", 404);
     }
     
     return await Offer.findByPk(id, {
@@ -37,7 +38,7 @@ export const createOffer = async (offer: IOffer) => {
 export const updateOffer = async (id: number, offer: IOffer) => {
     const existingOffer = await Offer.findByPk(id);
     if (!existingOffer) {
-        throw new Error("Offre non trouvée");
+        throw new BaseError("Offre non trouvée", 404);
     }
 
     await Offer.update(offer, { where: { id } });
@@ -48,7 +49,7 @@ export const updateOffer = async (id: number, offer: IOffer) => {
 export const deleteOffer = async (id: number) => {
     const existingOffer = await Offer.findByPk(id);
     if (!existingOffer) {
-        throw new Error("Offre non trouvée");
+        throw new BaseError("Offre non trouvée", 404);
     }
 
     await Offer.destroy({ where: { id } });
