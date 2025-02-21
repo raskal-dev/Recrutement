@@ -3,6 +3,7 @@ import { createUser, deleteUser, getUser, getUsers, login, updateUser } from "..
 import { SendError, SendResponse } from "../Middlewares/SendResponse.middleware";
 import { IUser } from "../Utils/Interface/IUser";
 import bcrypt from 'bcrypt';
+import { BaseError } from "../Utils/BaseErrer";
 
 
 
@@ -11,7 +12,11 @@ export const getUsersController = async(req: Request, res: Response, next: NextF
         const users = await getUsers();
         SendResponse(res, users, "Liste des Users");
     } catch (err: any) {
-        return SendError(res, "Message d'erreur", 500);
+        if (err instanceof BaseError) {
+            return SendError(res, err.message, err.statusCode);
+        }
+        
+        return SendError(res, "Erreur interne du serveur", 500);
     }
 };
 
@@ -26,7 +31,11 @@ export const getUserController = async(req: Request, res: Response, next: NextFu
         SendResponse(res, user, "Utilisateur trouvé");
     }
     catch (err: any) {
-        return SendError(res, "Message d'erreur", 500);
+        if (err instanceof BaseError) {
+            return SendError(res, err.message, err.statusCode);
+        }
+        
+        return SendError(res, "Erreur interne du serveur", 500);
     }
 };
 
@@ -36,7 +45,11 @@ export const createUserController = async(req: Request, res: Response, next: Nex
         const user = await createUser(req.body as IUser);
         SendResponse(res, user, "Insertion de User");
     } catch (err: any) {
-        return SendError(res, "Message d'erreur", 500);
+        if (err instanceof BaseError) {
+            return SendError(res, err.message, err.statusCode);
+        }
+        
+        return SendError(res, "Erreur interne du serveur", 500);
     }
 };
 
@@ -54,7 +67,11 @@ export const updateUserController = async (req: Request, res: Response, next: Ne
         const updatedUser = await updateUser(userId, req.body);
         SendResponse(res, updatedUser, "Utilisateur modifié avec succès");
     } catch (err: any) {
-        return SendError(res, "Erreur de mise à jour, 500");
+        if (err instanceof BaseError) {
+            return SendError(res, err.message, err.statusCode);
+        }
+        
+        return SendError(res, "Erreur interne du serveur", 500);
     }
 };
 
@@ -68,7 +85,11 @@ export const deleteUserController = async (req: Request, res: Response, next: Ne
         const result = await deleteUser(userId);
         SendResponse(res, result, "Suppression de l'utilisateur réussie");
     } catch (err: any) {
-        return SendError(res, "Erreur de suppression", 400);
+        if (err instanceof BaseError) {
+            return SendError(res, err.message, err.statusCode);
+        }
+        
+        return SendError(res, "Erreur interne du serveur", 500);
     }
 };
 
@@ -77,6 +98,10 @@ export const loginController = async (req: Request, res: Response, next: NextFun
         const result = await login(req);
         SendResponse(res, result, "Connexion réussie");
     } catch (err: any) {
-        return SendError(res, "Erreur de connexion", 400);
+        if (err instanceof BaseError) {
+            return SendError(res, err.message, err.statusCode);
+        }
+        
+        return SendError(res, "Erreur interne du serveur", 500);
     }
 };
