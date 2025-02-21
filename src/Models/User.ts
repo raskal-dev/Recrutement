@@ -5,12 +5,9 @@ const User = (sequelize: Sequelize) => {
     return sequelize.define(
         'User',
         {
-            firstName: {
+            name: {
                 type: DataTypes.STRING(80),
                 allowNull: false,
-            },
-            company: {
-                type: DataTypes.STRING(80)
             },
             about: {
                 type: DataTypes.STRING

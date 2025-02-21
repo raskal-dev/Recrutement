@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { createUser, deleteUser, getUsers, login, updateUser } from "../Services/UserServices";
-import { SendResponse } from "../Middlewares/SendResponse.middleware";
+import { SendError, SendResponse } from "../Middlewares/SendResponse.middleware";
 import { IUser } from "../Utils/Interface/IUser";
 import bcrypt from 'bcrypt';
 
@@ -11,7 +11,7 @@ export const getUsersController = async(req: Request, res: Response, next: NextF
         const users = await getUsers();
         SendResponse(res, users, "Liste des Users");
     } catch (err: any) {
-        SendResponse(res, err, "Message d'erreur", 500);
+        SendError(res, "Message d'erreur", 500);
     }
 }
 
@@ -22,7 +22,7 @@ export const createUserController = async(req: Request, res: Response, next: Nex
         const user = await createUser(req.body as IUser);
         SendResponse(res, user, "Insertion de User");
     } catch (err: any) {
-        SendResponse(res, err, "Message d'erreur", 400);
+        SendError(res, "Message d'erreur", 500);
     }
 }
 
@@ -30,7 +30,7 @@ export const updateUserController = async (req: Request, res: Response, next: Ne
     try {
         const userId = parseInt(req.params.user); // Extraire l'ID depuis l'URL
         if (isNaN(userId)) {
-            return SendResponse(res, null, "ID invalide", 400);
+            return SendError(res, "ID invalide", 400);
         }
 
         if (req.body.password) {
@@ -40,7 +40,7 @@ export const updateUserController = async (req: Request, res: Response, next: Ne
         const updatedUser = await updateUser(userId, req.body);
         SendResponse(res, updatedUser, "Utilisateur modifié avec succès");
     } catch (err: any) {
-        SendResponse(res, err.message, "Erreur de mise à jour", 400);
+        SendError(res, "Erreur de mise à jour, 500");
     }
 };
 
@@ -48,13 +48,13 @@ export const deleteUserController = async (req: Request, res: Response, next: Ne
     try {
         const userId = parseInt(req.params.userId);
         if (isNaN(userId)) {
-            return SendResponse(res, null, "ID invalide", 400);
+            return SendError(res, "ID invalide", 400);
         }
 
         const result = await deleteUser(userId);
         SendResponse(res, result, "Suppression de l'utilisateur réussie");
     } catch (err: any) {
-        SendResponse(res, err.message, "Erreur de suppression", 400);
+        SendError(res, "Erreur de suppression", 400);
     }
 };
 
@@ -63,6 +63,6 @@ export const loginController = async (req: Request, res: Response, next: NextFun
         const result = await login(req);
         SendResponse(res, result, "Connexion réussie");
     } catch (err: any) {
-        SendResponse(res, err.message, "Erreur de connexion", 400);
+        SendError(res, "Erreur de connexion", 400);
     }
 };

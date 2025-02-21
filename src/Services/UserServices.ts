@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 const User = db.users as any;
 
 export const getUsers = async () => {
-    return await User.findAll({attributes: ['id', 'firstname','email', 'createdAt', 'updatedAt']});
+    return await User.findAll({attributes: ['id', 'name','email', 'about', 'adress', 'role', 'createdAt', 'updatedAt']});
 }
 
 export const createUser = async (user: IUser) => {
@@ -23,7 +23,7 @@ export const updateUser = async (id: number, user: IUser) => {
     await User.update(user, { where: { id } });
 
     return await User.findByPk(id, {
-        attributes: ['id', 'firstname', 'email', 'createdAt', 'updatedAt']
+        attributes: ['id', 'name', 'email', 'about', 'adress', 'createdAt', 'updatedAt']
     });
 };
 
