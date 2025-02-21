@@ -15,6 +15,11 @@ export const getOffers = async () => {
 };
 
 export const getOffer = async (id: number) => {
+    const existingOffer = await Offer.findByPk(id);
+    if (!existingOffer) {
+        throw new Error("Offre non trouvée");
+    }
+    
     return await Offer.findByPk(id, {
         include: [
             {

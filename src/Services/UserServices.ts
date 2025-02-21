@@ -11,6 +11,11 @@ export const getUsers = async () => {
 }
 
 export const getUser = async (id: number) => {
+    const existingUser = await User.findByPk(id);
+    if (!existingUser) {
+        throw new Error("Utilisateur non trouvé");
+    }
+    
     return await User.findByPk(id, {
         attributes: ['id', 'name', 'email', 'about', 'adress', 'role', 'createdAt', 'updatedAt']
     });
