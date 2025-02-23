@@ -8,8 +8,8 @@ const userRouter = express.Router();
 userRouter.get('/', jwtMiddleware, getUsersController);
 userRouter.get('/:userId', jwtMiddleware, getUserController);
 userRouter.post('/', createUserController);
-userRouter.put('/:userId', updateUserController);
-userRouter.delete('/:userId', deleteUserController);
+userRouter.put('/:userId', jwtMiddleware, updateUserController);
+userRouter.delete('/:userId', jwtMiddleware, deleteUserController);
 userRouter.post('/login', loginController);
 
 export default userRouter;
