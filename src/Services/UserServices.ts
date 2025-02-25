@@ -6,16 +6,39 @@ import jwt from 'jsonwebtoken';
 import { BaseError } from "../Utils/BaseErrer";
 
 const User = db.users as any;
+const Competence = db.competences as any;
+
+export const getProfile = async (id: number) => {
+    return await User.findByPk(id, {
+        attributes: ['id', 'name', 'email', 'about', 'adress', 'role', 'createdAt', 'updatedAt']});
+};
+
+export const addCompetenceToUser = async (userId: number, competenceIds: number[]) => {
+    const user = await User.findByPk(userId);
+    if (!user) {
+        throw new BaseError("Utilisateur non trouvé", 404);
+    }
+
+    const existingCompetences = await Competence.findAll({
+        where: { id: competenceIds },
+    });
+
+    if (existingCompetences.length !== competenceIds.length) {
+        throw new BaseError("Certaines compétences sont introuvables", 404);
+    }
+
+    return await User.addCompetences(competenceIds);
+};
 
 export const getUsers = async () => {
     return await User.findAll({attributes: ['id', 'name','email', 'about', 'adress', 'role', 'createdAt', 'updatedAt']});
-}
+};
 
 export const getUser = async (id: number) => {
     const existingUser = await User.findByPk(id);
     if (!existingUser) {
         throw new BaseError("Utilisateur non trouvé", 404);
-    }
+    };
     
     return await User.findByPk(id, {
         attributes: ['id', 'name', 'email', 'about', 'adress', 'role', 'createdAt', 'updatedAt']
@@ -74,3 +97,4 @@ export const login = async (req: Request) => {
 
     return { user, token };
 };
+

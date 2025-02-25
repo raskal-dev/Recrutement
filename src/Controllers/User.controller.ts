@@ -1,11 +1,50 @@
 import { NextFunction, Request, Response } from "express";
-import { createUser, deleteUser, getUser, getUsers, login, updateUser } from "../Services/UserServices";
+import { addCompetenceToUser, createUser, deleteUser, getProfile, getUser, getUsers, login, updateUser } from "../Services/UserServices";
 import { SendError, SendResponse } from "../Middlewares/SendResponse.middleware";
 import { IUser } from "../Utils/Interface/IUser";
 import bcrypt from 'bcrypt';
 import { BaseError } from "../Utils/BaseErrer";
 
+export const getProfileController = async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        // @ts-expect-error Property 'auth' does not exist on type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        const userId = await req.auth.user.id;
+        if (!userId) {
+            return SendError(res, "Utilisateur non trouvé", 404);
+        }
+        
+        const user = await getProfile(userId);
+        SendResponse(res, user, "Profil de l'utilisateur");
+    } catch (err: any) {
+        if (err instanceof BaseError) {
+            return SendError(res, err.message, err.statusCode);
+        }
 
+        return SendError(res, "Erreur interne du serveur", 500);
+    }
+};
+
+export const addCompetenceToUserController = async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const competenceIds = req.body.competenceIds as number[];
+
+        // @ts-expect-error Property 'auth' does not exist on type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+        const userId = await req.auth.user.id;
+
+        if (!userId) {
+            return SendError(res, "Utilisateur non authentifié", 401);
+        }
+
+        const result = await addCompetenceToUser(userId, competenceIds);
+        SendResponse(res, result, "Compétence ajoutée avec succès");
+    } catch (err: any) {
+        if (err instanceof BaseError) {
+            return SendError(res, err.message, err.statusCode);
+        }
+
+        return SendError(res, "Erreur interne du serveur", 500);
+    }
+};
 
 export const getUsersController = async(req: Request, res: Response, next: NextFunction) => {
     try {

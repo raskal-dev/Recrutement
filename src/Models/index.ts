@@ -2,6 +2,8 @@ import { Sequelize } from "sequelize";
 import DbConfig from "../Configs/Db.config";
 import User from "./User";
 import Offer from "./Offer";
+import Competence from "./Competence";
+import UserCompetence from "./UserCompetence";
 
 
 const sequelize = new Sequelize(DbConfig.DB, DbConfig.USER, DbConfig.PASSWORD, {
@@ -28,12 +30,16 @@ db.sequelize = sequelize;
 
 db.users = User(sequelize);
 db.offers = Offer(sequelize);
+db.competences = Competence(sequelize)
+db.userCompetences = UserCompetence(sequelize);
 
 /**
  * Define the R E L A T I O N S H I P S
  */
 db.users.hasMany(db.offers);
 db.offers.belongsTo(db.users);
+db.users.belongsToMany(db.competences, { through: 'UserCompetences' });
+db.competences.belongsToMany(db.users, { through: 'UserCompetences' });
 
 
 const ConnectionDb = async () => {
