@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from "sequelize";
 
-const Offer = (sequelize: Sequelize, ) => {
+const Offer = (sequelize: Sequelize) => {
     return sequelize.define(
         'Offer',
         {

@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { db } from "../Models";
 import { Role } from "../Utils/Enums/Role.enum";
 import { createOffer, deleteOffer, getOffers, getOffer, updateOffer } from "../Services/OfferServices";
 import { IOffer } from "../Utils/Interface/IOffer";
@@ -15,7 +14,7 @@ export const getOffersController = async (req: Request, res: Response) => {
             return SendError(res, err.message, err.statusCode);
         }
         
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 };
 
@@ -33,7 +32,7 @@ export const getOfferController = async (req: Request, res: Response) => {
             return SendError(res, err.message, err.statusCode);
         }
 
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 }
 
@@ -59,7 +58,7 @@ export const createOfferController = async (req: Request, res: Response) => {
             return SendError(res, err.message, err.statusCode);
         }
         
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 };
 
@@ -81,7 +80,7 @@ export const updateOfferController = async (req: Request, res: Response) => {
             return SendError(res, err.message, err.statusCode);
         }
         
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 };
 
@@ -99,6 +98,6 @@ export const deleteOfferController = async (req: Request, res: Response) => {
             return SendError(res, err.message, err.statusCode);
         }
         
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 };

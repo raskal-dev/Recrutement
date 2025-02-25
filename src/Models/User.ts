@@ -20,7 +20,7 @@ const User = (sequelize: Sequelize) => {
                 allowNull: false,
             },
             role: {
-                type: DataTypes.STRING(25),
+                type: DataTypes.ENUM(Role.ADMIN, Role.STUDENT, Role.ENTREPRISE),
                 allowNull: false,
                 defaultValue: Role.STUDENT,
             },
