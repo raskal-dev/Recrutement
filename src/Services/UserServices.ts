@@ -10,7 +10,12 @@ const Competence = db.competences as any;
 
 export const getProfile = async (id: number) => {
     return await User.findByPk(id, {
-        attributes: ['id', 'name', 'email', 'about', 'adress', 'role', 'createdAt', 'updatedAt']});
+        attributes: ['id', 'name', 'email', 'about', 'adress', 'role', 'createdAt', 'updatedAt'],
+        include: {
+            model: Competence,
+            attributes: ['id', 'name']
+        }
+    });
 };
 
 export const addCompetenceToUser = async (userId: number, competenceIds: number[]) => {
@@ -27,7 +32,7 @@ export const addCompetenceToUser = async (userId: number, competenceIds: number[
         throw new BaseError("Certaines compétences sont introuvables", 404);
     }
 
-    return await User.addCompetences(competenceIds);
+    return await user.addCompetences(competenceIds);
 };
 
 export const getUsers = async () => {

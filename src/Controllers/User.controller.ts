@@ -20,7 +20,7 @@ export const getProfileController = async(req: Request, res: Response, next: Nex
             return SendError(res, err.message, err.statusCode);
         }
 
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 };
 
@@ -42,7 +42,7 @@ export const addCompetenceToUserController = async(req: Request, res: Response, 
             return SendError(res, err.message, err.statusCode);
         }
 
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 };
 
@@ -55,7 +55,7 @@ export const getUsersController = async(req: Request, res: Response, next: NextF
             return SendError(res, err.message, err.statusCode);
         }
         
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 };
 
@@ -74,7 +74,7 @@ export const getUserController = async(req: Request, res: Response, next: NextFu
             return SendError(res, err.message, err.statusCode);
         }
         
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 };
 
@@ -88,7 +88,7 @@ export const createUserController = async(req: Request, res: Response, next: Nex
             return SendError(res, err.message, err.statusCode);
         }
         
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 };
 
@@ -110,7 +110,7 @@ export const updateUserController = async (req: Request, res: Response, next: Ne
             return SendError(res, err.message, err.statusCode);
         }
         
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 };
 
@@ -128,7 +128,7 @@ export const deleteUserController = async (req: Request, res: Response, next: Ne
             return SendError(res, err.message, err.statusCode);
         }
         
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 };
 
@@ -141,6 +141,6 @@ export const loginController = async (req: Request, res: Response, next: NextFun
             return SendError(res, err.message, err.statusCode);
         }
         
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 };

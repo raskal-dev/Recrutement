@@ -4,6 +4,7 @@ import { ConnectionDb } from './src/Models';
 import userRouter from './src/Routes/User.routes';
 import bodyParser from 'body-parser';
 import offerRouter from './src/Routes/Offer.routes';
+import competenceRouter from './src/Routes/Competence.routes';
 
 
 //For env File 
@@ -22,6 +23,7 @@ ConnectionDb();
 const groupEndpoint = '/api';
 app.use(`${groupEndpoint}/users`, userRouter);
 app.use(`${groupEndpoint}/offers`, offerRouter);
+app.use(`${groupEndpoint}/competences`, competenceRouter);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to Express & TypeScript Server');

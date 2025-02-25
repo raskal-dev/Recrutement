@@ -14,7 +14,7 @@ export const getOffersController = async (req: Request, res: Response) => {
             return SendError(res, err.message, err.statusCode);
         }
         
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 };
 
@@ -32,7 +32,7 @@ export const getOfferController = async (req: Request, res: Response) => {
             return SendError(res, err.message, err.statusCode);
         }
 
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 }
 
@@ -58,7 +58,7 @@ export const createOfferController = async (req: Request, res: Response) => {
             return SendError(res, err.message, err.statusCode);
         }
         
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 };
 
@@ -80,7 +80,7 @@ export const updateOfferController = async (req: Request, res: Response) => {
             return SendError(res, err.message, err.statusCode);
         }
         
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 };
 
@@ -98,6 +98,6 @@ export const deleteOfferController = async (req: Request, res: Response) => {
             return SendError(res, err.message, err.statusCode);
         }
         
-        return SendError(res, "Erreur interne du serveur", 500);
+        return SendError(res, err.message, 500);
     }
 };
