@@ -4,6 +4,7 @@ import User from "./User";
 import Offer from "./Offer";
 import Competence from "./Competence";
 import UserCompetence from "./UserCompetence";
+import moment from "moment";
 // import CompetencesSeeder from "../Seeders/CompetencesSeeder";
 
 
@@ -58,11 +59,12 @@ db.competences.belongsToMany(db.users, { through: 'UserCompetences' });
 
 
 const ConnectionDb = async () => {
+  const formattedTime = moment().format('HH:mm:ss');
     try {
         await db.sequelize.sync({  force: false, alter: true});
-        console.log("✅ Base de données synchronisée avec succès !");
+        console.info(`[INFO] ${formattedTime} Base de données synchronisée avec succès !`);
     } catch (err: any) {
-        console.log("❌ Échec de la synchronisation de la base de données :", err.message);
+        console.log(`[WARN] ${formattedTime} Échec de la synchronisation de la base de données :`, err.message);
     }
 }
 

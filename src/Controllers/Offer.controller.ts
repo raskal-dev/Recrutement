@@ -45,9 +45,9 @@ export const createOfferController = async (req: Request, res: Response) => {
             return SendError(res, "Utilisateur non trouvé", 404);
         }
 
-        if (user.role !== Role.ENTREPRISE) {
-            return SendError(res, "Vous n'êtes pas autorisé à effectuer cette action.", 403);
-        }
+        // if (user.role !== Role.ENTREPRISE) {
+        //     return SendError(res, "Vous n'êtes pas autorisé à effectuer cette action.", 403);
+        // }
 
         const dataOffer: IOffer = {...req.body, UserId: user.id};
 
