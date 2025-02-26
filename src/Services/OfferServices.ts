@@ -1,6 +1,7 @@
 import { db } from "../Models";
 import { BaseError } from "../Utils/BaseErrer";
 import { IOffer } from "../Utils/Interface/IOffer";
+import logger from 'morgan';
 
 const Offer = db.offers as any;
 
@@ -38,6 +39,7 @@ export const createOffer = async (offer: IOffer) => {
 export const updateOffer = async (id: number, offer: IOffer) => {
     const existingOffer = await Offer.findByPk(id);
     if (!existingOffer) {
+        console.log(logger("Offre non trouvée"), 404);
         throw new BaseError("Offre non trouvée", 404);
     }
 

@@ -5,6 +5,7 @@ import Offer from "./Offer";
 import Competence from "./Competence";
 import UserCompetence from "./UserCompetence";
 import moment from "moment";
+import baselogger from "../Configs/Logger.config";
 // import CompetencesSeeder from "../Seeders/CompetencesSeeder";
 
 
@@ -43,28 +44,17 @@ db.offers.belongsTo(db.users);
 db.users.belongsToMany(db.competences, { through: 'UserCompetences' });
 db.competences.belongsToMany(db.users, { through: 'UserCompetences' });
 
-/**
- * Call the seeders
- */
-// const runSeeder = async () => {
-//     try {
-//         await CompetencesSeeder.up(sequelize.getQueryInterface());
-//         console.log("✅ Seeders exécutés avec succès !");
-//     } catch (error) {
-//         console.error("❌ Erreur lors de l'exécution des seeders :", error);
-//     } finally {
-//         await sequelize.close();
-//     }
-// }
-
-
 const ConnectionDb = async () => {
   const formattedTime = moment().format('HH:mm:ss');
     try {
         await db.sequelize.sync({  force: false, alter: true});
-        console.info(`[INFO] ${formattedTime} Base de données synchronisée avec succès !`);
+        // console.info(`[INFO] ${formattedTime} Base de données synchronisée avec succès !`);
+        baselogger.info("Database synchronized successfully !");
     } catch (err: any) {
-        console.log(`[WARN] ${formattedTime} Échec de la synchronisation de la base de données :`, err.message);
+        // console.log(`[ERR] ${formattedTime} Échec de la synchronisation de la base de données :`, err.message);
+        baselogger.error(`Error for sync : ${
+            err.message
+        }`);
     }
 }
 
