@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { Role } from "../Utils/Enums/Role.enum";
 import { createOffer, deleteOffer, getOffers, getOffer, updateOffer } from "../Services/OfferServices";
 import { IOffer } from "../Utils/Interface/IOffer";
 import { SendError, SendResponse } from "../Middlewares/SendResponse.middleware";
