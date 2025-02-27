@@ -4,8 +4,7 @@ import { IUser } from "../Utils/Interface/IUser";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { BaseError } from "../Utils/BaseErrer";
-import logger from 'morgan';
-import baselogger from "../Configs/Logger.config";
+import logger from "../Configs/Logger.config";
 
 const User = db.users as any;
 const Competence = db.competences as any;
@@ -77,7 +76,7 @@ export const deleteUser = async (id: number) => {
 
     await User.destroy({ where: { id } });
 
-    baselogger.info(`User ${existingUser.email} deleted`);
+    logger.info(`User ${existingUser.email} deleted`);
     return { message: "Utilisateur supprimé avec succès" };
 };
 
@@ -103,7 +102,7 @@ export const login = async (req: Request) => {
         { expiresIn: 60 * 60 } // 60 secondes
     );
 
-    baselogger.info(`User ${user.email} logged in`);
+    logger.info(`User ${user.email} logged in`);
     return { user, token };
 };
 
