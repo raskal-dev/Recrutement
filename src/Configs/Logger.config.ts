@@ -1,6 +1,6 @@
 import pino from "pino";
 
-const baselogger = pino({
+const logger = pino({
     browser: {
         serialize: true,
       },
@@ -14,4 +14,4 @@ const baselogger = pino({
     }
 });
 
-export default baselogger;
+export default logger;

@@ -5,8 +5,8 @@ import userRouter from './src/Routes/User.routes';
 import bodyParser from 'body-parser';
 import offerRouter from './src/Routes/Offer.routes';
 import competenceRouter from './src/Routes/Competence.routes';
-import logger from 'morgan';
-import baselogger from './src/Configs/Logger.config';
+import baseLogger from 'morgan';
+import logger from './src/Configs/Logger.config';
 // import moment from 'moment';
 
 //For env File 
@@ -17,7 +17,7 @@ const port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(express.json());
 // app.use(morgan(":method : :url :status :res[content-length] ................. :response-time ms"));
-app.use(logger('dev'));
+app.use(baseLogger('dev'));
 
 ConnectionDb();
 
@@ -36,5 +36,5 @@ app.get('/', (req: Request, res: Response) => {
 app.listen(port, () => {
   // const formattedTime = moment().format('HH:mm:ss');
   // console.info(`[INFO] ${formattedTime} Server is Fire at http://localhost:${port}`);
-  baselogger.info(`Server is running at http://localhost:${port}`);
+  logger.info(`Server is running at http://localhost:${port}`);
 });
