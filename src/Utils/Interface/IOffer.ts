@@ -8,4 +8,4 @@ export interface IOffer {
     UserId: number;
     createdAt: Date;
     updatedAt: Date;
-}
+};

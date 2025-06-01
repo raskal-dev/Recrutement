@@ -99,7 +99,7 @@ export const login = async (req: Request) => {
     const token = jwt.sign(
         { userEmail: user.email },
         process.env.JWT_KEY as string,
-        { expiresIn: 60 * 60 } // 60 secondes
+        { expiresIn: 60 * 60 } // 60 secondes
     );
 
     logger.info(`User ${user.email} logged in`);
