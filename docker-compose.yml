@@ -53,9 +53,21 @@ services:
       - "9090:9090"
     depends_on:
       - backend
+  
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3001:3000"  # Grafana sera accessible sur localhost:3001
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+
 
 
 volumes:
   pgdata:
+  grafana_data:
 
 
