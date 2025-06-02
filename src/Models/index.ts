@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import DbConfig from "../Configs/Db.config";
-import User from "./User";
+import UserImport from "./User";
 import Offer from "./Offer";
 import Competence from "./Competence";
 import UserCompetence from "./UserCompetence";
@@ -32,7 +32,7 @@ db.sequelize = sequelize;
  * call the models
  */
 
-db.users = User(sequelize);
+db.users = UserImport(sequelize);
 db.offers = Offer(sequelize);
 db.competences = Competence(sequelize)
 db.userCompetences = UserCompetence(sequelize);

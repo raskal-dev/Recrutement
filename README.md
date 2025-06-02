@@ -1,3 +1,6 @@
+# Recrutement
+Backend d'une application de mise en relation entre recruteurs et étudiants.
+
 # 🚀 Lancer le projet avec Docker
 
 ### Étapes à suivres :
@@ -15,13 +18,15 @@ $ docker-compose up --build
 ````
 
 # Monitoring 
-Pour le Monitoring on a utiliser un projet [dockprom](https://github.com/stefanprodan/dockprom.git), qui est un projet basé sur prometheus, grafana, caddy, cadvisor, alertmanager et nodeexport 
+Pour le Monitoring on a utiliser prometheus et grafana 
 
-### Installation de dockprom
+### Prometeus
 ````bash
-$ git clone git@github.com:stefanprodan/dockprom.git
-$ cd dockprom
-$ docker-compose up
+ http://localhost:9090
+````
+### Grafana
+````bash
+ http://localhost:3001
 ````
 
 # Les Tests
