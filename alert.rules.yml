@@ -1,0 +1,51 @@
+groups:
+  - name: node_alerts
+    rules:
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status="'401'"}[1m]) > 0.01
+        for: 5s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Taux d'erreur élevé détecté {{ $labels.instance }}"
+          description: "Plus de 10% des requêtes échouent avec le statut 401."
+      - alert: HighCPUUsage
+        expr: process_cpu_seconds_total > 80
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "CPU élevé"
+          description: "L'utilisation CPU dépasse 80% depuis 2 minutes."
+      - alert: EventLoopLag
+        expr: nodejs_eventloop_lag_mean_seconds > 0.05
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "Event loop lag élevé"
+          description: "Le délai moyen de l'event loop est supérieur à 50ms."
+      - alert: HighMemoryUsage
+        expr: process_resident_memory_bytes > 100000000
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "Mémoire élevée utilisée"
+          description: "La mémoire dépasse 100MB depuis 30s"
+      - alert: InstanceDown
+        expr: vector(1)
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Instance {{ $labels.instance }} down"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 30 seconds."
+      - alert: ServiceDown
+        expr: vector(1)
+        for: 10s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Service HS"
+          description: "Simulation: le service est injoignable."
