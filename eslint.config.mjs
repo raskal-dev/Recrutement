@@ -10,6 +10,7 @@ export default defineConfig([
     languageOptions: { globals: globals.browser },
     extends: ["js/recommended"],
   },
+  ...tseslint.configs.recommended,
   {
     files: ["**/*.{ts,cts,mts}"],
     languageOptions: {
