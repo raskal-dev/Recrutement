@@ -26,8 +26,8 @@ export default defineConfig([
     },
     rules: {
       ...tseslint.configs.recommended.rules,
-      "@typescript-eslint/no-explicit-any": "off", // ✅ Désactive la règle ici
-      "@typescript-eslint/no-unused-vars": "off",  // (optionnel) Désactive aussi ça si tu veux
+      "@typescript-eslint/no-explicit-any": "off",
+      // "@typescript-eslint/no-unused-vars": "off",
     },
   },
 ]);
