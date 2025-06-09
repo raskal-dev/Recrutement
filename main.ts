@@ -50,6 +50,21 @@ app.use((req: { method: any; path: any; }, res: { on: (arg0: string, arg1: () =>
   next();
 });
 
+app.get('/stress', (req: Request, res: Response) => {
+  let a = [];
+  for (let i = 0; i < 1e7; i++) a.push(i);
+  res.send("Stress triggered!");
+});
+
+app.post('/alert', (req: Request, res: Response) => {
+  console.log('🔔 Alerte reçue :');
+  console.dir(req.body, { depth: null });
+  res.status(200).send('Alerte reçue !');
+});
+
+
+
+// Start the server
 app.listen(port, () => {
   // const formattedTime = moment().format('HH:mm:ss');
   // console.info(`[INFO] ${formattedTime} Server is Fire at http://localhost:${port}`);

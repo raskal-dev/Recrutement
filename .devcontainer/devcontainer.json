@@ -1,0 +1,23 @@
+{
+  "name": "Recrutement App",
+  "dockerFile": "../Dockerfile",
+  "workspaceFolder": "/app",
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "build": {
+    "args": { "NODE_ENV": "development" }
+  },
+  "mounts": [
+    "source=${env:USERPROFILE}\\.ssh,target=/home/vscode/.ssh,type=bind"
+  ],
+  "remoteEnv": {
+    "GIT_SSH_COMMAND": "ssh -i /home/vscode/.ssh/id_ed25519 -o StrictHostKeyChecking=no"
+  },
+  "postCreateCommand": "git config --global user.name 'raskal-dev' && git config --global user.email 'kalvinrasamyzo@gmail.com'",
+  "extensions": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-azuretools.vscode-docker"
+  ]
+}
